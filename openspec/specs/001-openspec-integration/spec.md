@@ -31,6 +31,7 @@ OpenSpec advocates for committing specs to version control for:
 3. **Backward Compatibility**: Don't break existing projects with gitignored specs
 4. **Documentation**: Update all docs to reflect OpenSpec approach
 5. **Migration Path**: Provide guidance for existing users
+6. **Unified Storage**: ✅ NEW - Make OpenSpec and Auto-Claude use the same spec files
 
 ## Requirements
 
@@ -201,3 +202,75 @@ git commit -m "feat: commit Auto-Claude specs for team collaboration"
 
 **Status**: ✅ Phase 1 Complete | ⏳ Phase 2 In Progress
 **Last Updated**: 2026-01-07
+
+## Phase 7: Unified Spec Storage ✅ COMPLETED
+
+**Goal**: Make OpenSpec CLI and Auto-Claude use the exact same spec files.
+
+### Changes Made
+
+1. **Updated `get_specs_dir()` function** (`apps/backend/spec/pipeline/models.py`)
+   - Changed return path from `.auto-claude/specs/` to `openspec/specs/`
+   - Both CLIs now read/write to the same location
+   - Ensures `openspec/` directory structure exists
+
+2. **Moved existing specs**
+   - Migrated `.auto-claude/specs/001-openspec-integration/` → `openspec/specs/001-openspec-integration/`
+   - Preserved all files: `spec.md`, `implementation_plan.json`
+
+3. **Verified unified access**
+   - `openspec list --specs` shows specs from `openspec/specs/`
+   - `auto-claude.sh --list` shows specs from `openspec/specs/`
+   - `openspec show 001-openspec-integration --type spec` reads the spec
+   - Both tools can access the same files
+
+### Directory Structure
+
+```
+project/
+├── openspec/
+│   ├── specs/              # ✅ SHARED: Both Auto-Claude and OpenSpec
+│   │   └── 001-feature/
+│   │       ├── spec.md
+│   │       ├── implementation_plan.json
+│   │       └── requirements.json
+│   ├── changes/            # OpenSpec change proposals
+│   └── AGENTS.md
+│
+└── .auto-claude/           # Auto-Claude metadata only
+    ├── roadmap/
+    └── project_index.json
+```
+
+### Benefits
+
+- ✅ **Single Source of Truth**: One location for all specs
+- ✅ **Cross-Tool Compatibility**: Both CLIs see the same data
+- ✅ **Team Collaboration**: Everyone uses the same spec files
+- ✅ **Simplified Workflow**: No duplication or sync issues
+- ✅ **Version Control**: All specs committed together
+
+### Testing Results
+
+```bash
+# OpenSpec can see the spec
+$ openspec list --specs
+Specs:
+  001-openspec-integration     requirements 0
+
+# Auto-Claude can see the spec
+$ ./auto-claude.sh --list
+[--] 001-openspec-integration
+     Status: initialized | Subtasks: 0/0
+
+# OpenSpec can read the spec
+$ openspec show 001-openspec-integration --type spec
+# Spec: OpenSpec-Style Spec Storage Integration
+...
+```
+
+### Updated Documentation
+
+- `CLAUDE.md` - Added "Unified OpenSpec Integration" section
+- Explained unified directory structure
+- Documented workflow between both tools

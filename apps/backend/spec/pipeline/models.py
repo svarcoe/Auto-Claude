@@ -24,23 +24,35 @@ if TYPE_CHECKING:
 def get_specs_dir(project_dir: Path) -> Path:
     """Get the specs directory path.
 
+    Auto-Claude now uses OpenSpec-style storage for specs, storing them in
+    openspec/specs/ for unified access between Auto-Claude and OpenSpec CLI.
+
+    This function ensures both .auto-claude/ and openspec/ directories exist.
+
     IMPORTANT: Only .auto-claude/ is considered an "installed" auto-claude.
     The auto-claude/ folder (if it exists) is SOURCE CODE being developed,
     not an installation. This allows Auto Claude to be used to develop itself.
-
-    This function also ensures .auto-claude is added to .gitignore on first use.
 
     Args:
         project_dir: The project root directory
 
     Returns:
-        Path to the specs directory within .auto-claude/
+        Path to the specs directory (openspec/specs/)
     """
-    # Initialize .auto-claude directory and ensure it's in .gitignore
+    # Initialize .auto-claude directory for metadata (roadmap, project_index)
     init_auto_claude_dir(project_dir)
 
-    # Return the specs directory path
-    return project_dir / ".auto-claude" / "specs"
+    # Ensure openspec directory structure exists
+    openspec_dir = project_dir / "openspec"
+    specs_dir = openspec_dir / "specs"
+    changes_dir = openspec_dir / "changes"
+
+    # Create directories if they don't exist
+    specs_dir.mkdir(parents=True, exist_ok=True)
+    changes_dir.mkdir(parents=True, exist_ok=True)
+
+    # Return the unified specs directory path
+    return specs_dir
 
 
 def cleanup_orphaned_pending_folders(specs_dir: Path) -> None:

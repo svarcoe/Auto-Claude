@@ -513,26 +513,58 @@ npm run dev      # Run in development mode (includes --remote-debugging-port=922
 3. Run QA: `python run.py --spec 001 --qa`
 4. QA agents will automatically interact with the running app for testing
 
-## Data Storage: OpenSpec-Style Versioning
+## Data Storage: Unified OpenSpec Integration
 
-**Auto-Claude follows OpenSpec conventions** by committing specs, roadmaps, and work items to version control for team collaboration and transparency.
+**Auto-Claude integrates with OpenSpec** for unified spec storage. Both CLIs read and write to the same spec files for seamless collaboration and version control.
 
-### What's Committed to Git 📝
+### Unified Directory Structure 📁
 
-The `.auto-claude/` directory is **committed to your repository** and contains:
-- `specs/` - Feature specifications, implementation plans, QA reports
-- `roadmap/` - Project roadmap and strategic planning
-- `project_index.json` - Detected project capabilities and tech stack
+```
+project/
+├── openspec/                    # OpenSpec + Auto-Claude unified storage
+│   ├── specs/                  # ✅ Shared specs (both CLIs)
+│   │   └── 001-feature/
+│   │       ├── spec.md         # Feature specification
+│   │       ├── implementation_plan.json  # Auto-Claude tracking
+│   │       └── requirements.json         # Structured requirements
+│   ├── changes/                # OpenSpec change proposals (planning phase)
+│   ├── AGENTS.md               # AI assistant instructions
+│   └── project.md              # Project context
+│
+└── .auto-claude/               # Auto-Claude metadata
+    ├── roadmap/                # Strategic roadmap
+    └── project_index.json      # Detected capabilities
+```
+
+### How It Works 🔄
+
+**Both CLIs see the same specs:**
+- `openspec list --specs` → Shows all specs in `openspec/specs/`
+- `auto-claude.sh --list` → Shows all specs in `openspec/specs/`
+- `openspec show 001-feature --type spec` → Reads from `openspec/specs/001-feature/`
+- Auto-Claude builds read/write to `openspec/specs/`
+
+**Workflow:**
+1. **Planning**: Create change proposal in `openspec/changes/` (OpenSpec)
+2. **Implementation**: Auto-Claude builds to `openspec/specs/`
+3. **Archive**: `openspec archive` moves completed changes to `specs/`
 
 **Benefits:**
+- **Unified Access**: Both tools see the same spec files
 - **Team Collaboration**: All team members see specs and progress
 - **Version History**: Spec evolution tracked in git history
 - **Transparency**: AI decisions and reasoning visible to everyone
-- **Knowledge Sharing**: Implementation plans serve as documentation
+- **Tool Flexibility**: Use OpenSpec for planning, Auto-Claude for building
 
-### What's Gitignored 🔒
+### What's Committed vs Gitignored 🔒
 
-Security and temporary runtime files remain gitignored:
+**Committed to Git:**
+- `openspec/specs/` - All specification files
+- `openspec/changes/` - Active change proposals
+- `.auto-claude/roadmap/` - Project roadmap
+- `.auto-claude/project_index.json` - Project capabilities
+
+**Gitignored (Security):**
 - `.auto-claude-security.json` - Security profile with command allowlists
 - `.auto-claude-status` - Runtime status markers
 - `.security-key` - Security key file
@@ -543,18 +575,18 @@ Security and temporary runtime files remain gitignored:
 
 ### Selective Spec Sharing (Optional)
 
-If you want to keep some specs private while committing others:
+If you want to keep some specs private:
 
 ```bash
 # In your .gitignore, gitignore specific specs:
-.auto-claude/specs/001-internal-feature/
-.auto-claude/specs/002-secret-project/
+openspec/specs/001-internal-feature/
+openspec/specs/002-secret-project/
 
 # Or gitignore all specs except specific ones:
-.auto-claude/specs/
-!.auto-claude/specs/003-public-feature/
+openspec/specs/
+!openspec/specs/003-public-feature/
 ```
 
-### Migration from Gitignored Specs
+### Migration from Old Storage
 
-If you have an existing Auto-Claude project with gitignored specs, see `docs/MIGRATION.md` for instructions on migrating to OpenSpec-style committed specs.
+If you have specs in `.auto-claude/specs/`, they will be automatically accessible from the new location. See `docs/MIGRATION.md` for details on the unified storage approach.

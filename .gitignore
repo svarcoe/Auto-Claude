@@ -55,12 +55,15 @@ lerna-debug.log*
 # ===========================
 # Auto Claude Generated
 # ===========================
-.auto-claude/
+# Commit specs/roadmaps/work items (OpenSpec-style)
+# Only ignore security and temporary runtime files
 .auto-build-security.json
 .auto-claude-security.json
 .auto-claude-status
 .claude_settings.json
 .update-metadata.json
+.auto-claude/**/*.log
+.auto-claude/**/debug/
 
 # ===========================
 # Python (apps/backend)

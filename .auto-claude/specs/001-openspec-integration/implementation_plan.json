@@ -1,0 +1,120 @@
+{
+  "spec_id": "001-openspec-integration",
+  "spec_name": "OpenSpec-Style Spec Storage Integration",
+  "created": "2026-01-07T19:30:00Z",
+  "subtasks": [
+    {
+      "id": 1,
+      "title": "Update .gitignore to allow .auto-claude/ directory",
+      "description": "Remove .auto-claude/ from gitignore but keep security files gitignored",
+      "status": "completed",
+      "completed_at": "2026-01-07T19:20:00Z",
+      "files_modified": [
+        ".gitignore"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Update init.py to remove .auto-claude/ from AUTO_CLAUDE_GITIGNORE_ENTRIES",
+      "description": "Modify apps/backend/init.py to not add .auto-claude/ to gitignore automatically",
+      "status": "completed",
+      "completed_at": "2026-01-07T19:35:00Z",
+      "files_modified": [
+        "apps/backend/init.py"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Update CLAUDE.md documentation",
+      "description": "Add 'Data Storage: OpenSpec-Style Versioning' section explaining what's committed vs gitignored",
+      "status": "completed",
+      "completed_at": "2026-01-07T19:40:00Z",
+      "files_modified": [
+        "CLAUDE.md"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Create migration guide (docs/MIGRATION.md)",
+      "description": "Comprehensive guide for migrating existing projects from gitignored to committed specs",
+      "status": "completed",
+      "completed_at": "2026-01-07T19:45:00Z",
+      "files_created": [
+        "docs/MIGRATION.md"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Create roadmap structure",
+      "description": "Initialize .auto-claude/roadmap/ directory and create roadmap.md",
+      "status": "completed",
+      "completed_at": "2026-01-07T19:32:00Z",
+      "files_created": [
+        ".auto-claude/roadmap/roadmap.md"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Create OpenSpec integration spec",
+      "description": "Document the OpenSpec integration work in spec.md",
+      "status": "completed",
+      "completed_at": "2026-01-07T19:33:00Z",
+      "files_created": [
+        ".auto-claude/specs/001-openspec-integration/spec.md",
+        ".auto-claude/specs/001-openspec-integration/implementation_plan.json"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Verify backward compatibility",
+      "description": "Test that existing projects with gitignored specs still work",
+      "status": "pending",
+      "notes": "Will be verified after commit"
+    },
+    {
+      "id": 8,
+      "title": "Commit all changes",
+      "description": "Commit the OpenSpec integration changes including the .auto-claude/ directory",
+      "status": "pending"
+    }
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Gitignore Updates",
+      "status": "completed",
+      "subtask_ids": [1]
+    },
+    {
+      "phase": 2,
+      "name": "Initialization Changes",
+      "status": "completed",
+      "subtask_ids": [2]
+    },
+    {
+      "phase": 3,
+      "name": "Documentation Updates",
+      "status": "completed",
+      "subtask_ids": [3, 4]
+    },
+    {
+      "phase": 4,
+      "name": "Structure Setup",
+      "status": "completed",
+      "subtask_ids": [5, 6]
+    },
+    {
+      "phase": 5,
+      "name": "Testing & Verification",
+      "status": "pending",
+      "subtask_ids": [7, 8]
+    }
+  ],
+  "qa_history": [],
+  "status": "in_progress",
+  "progress": {
+    "total_subtasks": 8,
+    "completed_subtasks": 6,
+    "percent_complete": 75
+  }
+}

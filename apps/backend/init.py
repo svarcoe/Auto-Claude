@@ -2,19 +2,27 @@
 Auto Claude project initialization utilities.
 
 Handles first-time setup of .auto-claude directory and ensures proper gitignore configuration.
+
+NOTE: OpenSpec-Style Storage
+Auto-Claude now follows OpenSpec conventions by committing specs, roadmaps, and work items
+to the repository for team collaboration and transparency. Only security-sensitive files
+are gitignored.
 """
 
 from pathlib import Path
 
 # All entries that should be added to .gitignore for auto-claude projects
+# NOTE: .auto-claude/ is intentionally NOT included - specs are committed (OpenSpec-style)
+# Only security files and temporary runtime data are gitignored
 AUTO_CLAUDE_GITIGNORE_ENTRIES = [
-    ".auto-claude/",
-    ".auto-claude-security.json",
-    ".auto-claude-status",
-    ".claude_settings.json",
-    ".worktrees/",
-    ".security-key",
-    "logs/security/",
+    ".auto-claude-security.json",  # Security profile with command allowlists
+    ".auto-claude-status",  # Runtime status marker
+    ".claude_settings.json",  # IDE-specific settings
+    ".worktrees/",  # Temporary git worktrees for isolated builds
+    ".security-key",  # Security key file
+    "logs/security/",  # Security audit logs
+    ".auto-claude/**/*.log",  # Log files within .auto-claude
+    ".auto-claude/**/debug/",  # Debug directories
 ]
 
 

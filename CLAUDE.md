@@ -494,5 +494,48 @@ npm run dev      # Run in development mode (includes --remote-debugging-port=922
 3. Run QA: `python run.py --spec 001 --qa`
 4. QA agents will automatically interact with the running app for testing
 
-**Project data storage:**
-- `.auto-claude/specs/` - Per-project data (specs, plans, QA reports, memory) - gitignored
+## Data Storage: OpenSpec-Style Versioning
+
+**Auto-Claude follows OpenSpec conventions** by committing specs, roadmaps, and work items to version control for team collaboration and transparency.
+
+### What's Committed to Git 📝
+
+The `.auto-claude/` directory is **committed to your repository** and contains:
+- `specs/` - Feature specifications, implementation plans, QA reports
+- `roadmap/` - Project roadmap and strategic planning
+- `project_index.json` - Detected project capabilities and tech stack
+
+**Benefits:**
+- **Team Collaboration**: All team members see specs and progress
+- **Version History**: Spec evolution tracked in git history
+- **Transparency**: AI decisions and reasoning visible to everyone
+- **Knowledge Sharing**: Implementation plans serve as documentation
+
+### What's Gitignored 🔒
+
+Security and temporary runtime files remain gitignored:
+- `.auto-claude-security.json` - Security profile with command allowlists
+- `.auto-claude-status` - Runtime status markers
+- `.security-key` - Security key file
+- `logs/security/` - Security audit logs
+- `.auto-claude/**/*.log` - Log files
+- `.auto-claude/**/debug/` - Debug directories
+- `.worktrees/` - Temporary git worktrees for isolated builds
+
+### Selective Spec Sharing (Optional)
+
+If you want to keep some specs private while committing others:
+
+```bash
+# In your .gitignore, gitignore specific specs:
+.auto-claude/specs/001-internal-feature/
+.auto-claude/specs/002-secret-project/
+
+# Or gitignore all specs except specific ones:
+.auto-claude/specs/
+!.auto-claude/specs/003-public-feature/
+```
+
+### Migration from Gitignored Specs
+
+If you have an existing Auto-Claude project with gitignored specs, see `docs/MIGRATION.md` for instructions on migrating to OpenSpec-style committed specs.
